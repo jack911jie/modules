@@ -119,7 +119,7 @@ class FillGradient(ColorTransfer):
             begin_color=self.hex_to_rgb(begin_color)
         if end_color[0]=='#':
             end_color=self.hex_to_rgb(end_color)
-
+        # img=Image.new('RGBA',(600,800),'#ffffff')
         # make_img = lambda w, h, rgb: Image.fromarray(self.make_img_data(w, h, rgb))
         make_gradient_img = lambda w, h, begin_color, end_color, horizontal: Image.fromarray(self.make_gradation_img_data(w, h, begin_color, end_color, horizontal,direction=direction))
         rct=make_gradient_img(w, h, begin_color, end_color, horizontal=horizontal)
