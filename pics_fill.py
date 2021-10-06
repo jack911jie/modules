@@ -181,5 +181,5 @@ if __name__=='__main__':
     # img=rct.draw_gradient_rct_rgb(200,500,'#fffdee','#ffad6a',30,horizontal=(True, True, True),direction='vertical')
     img=Image.new('RGBA',(600,800),'#ffffff')
     # img=rct.fill_gradient_rct_rgb(img,'#fffdee','#ffad6a',horizontal=(True, True, True),direction='vertical')
-    img=rct.fill_multi_gradient_rct_rgb(img,('#fffdee','#ffad6a','#fed32a','#3b4ec2'),horizontal=(True, True, True),direction='vertical')
+    img=rct.fill_multi_gradient_rct_rgb(img,('#fffdee','#ffad6a','#fed32a'),horizontal=(True, True, True),direction='vertical')
     img.show()
