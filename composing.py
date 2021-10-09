@@ -42,7 +42,10 @@ def split_txt_Chn_eng(wid,font_size,txt_input,Indent='no'):
                     pre_txt=pre_txt+t
                     wd_lng=wd_lng+1
             else:
-                if t!='”' and t!='’':
+                if t in ['”','’','，','。','！','：','；','.',',','!']:
+                    pre_txt=pre_txt+' '+t
+                    wd_lng=wd_lng+char_len(t)
+                else:    
                     if wd_lng+char_len(t)>zi_per_line: #先判断是这个英文单词+原有拼接的字符串长度是否>每行字符数
                         txtGrp.append(pre_txt) #大于，则保持原有的拼接字符串，不再加入该英文单词
                         pre_txt=' '+t #新的英文单词另起一行
@@ -50,10 +53,7 @@ def split_txt_Chn_eng(wid,font_size,txt_input,Indent='no'):
                     else:                    
                         pre_txt=pre_txt+' '+t
                         wd_lng=wd_lng+char_len(t)
-                else:
-                    pre_txt=pre_txt+' '+t
-                    wd_lng=wd_lng+char_len(t)
-                    
+
             if wd_lng>zi_per_line:
                 wd_lng=0                
                 txtGrp.append(pre_txt)
