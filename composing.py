@@ -43,7 +43,7 @@ class TxtFormat:
                         pre_txt=pre_txt+t
                         wd_lng=wd_lng+1
                 else:
-                    if t in ['”','’','，','。','！','：','；','.',',','!']:
+                    if t in ['”','’','，','。','！','：','；','.',',','!','”。','”，']:
                         pre_txt=pre_txt+' '+t
                         wd_lng=wd_lng+self.char_len(t)
                     else:    
