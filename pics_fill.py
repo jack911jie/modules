@@ -139,38 +139,43 @@ class FillGradient(ColorTransfer):
     def fill_multi_gradient_rct_rgb(self,img,colors,horizontal=(True, True, True),direction='vertical'):
         w,h=img.size[0],img.size[1]
         parts=[]
-        if direction=='vertical':
-            for part_num in range(len(colors)-1):
-                if part_num==len(colors)-2:
-                    parts.append([h*part_num//(len(colors)-1),h+1])
-                else:
-                    parts.append([h*part_num//(len(colors)-1),h*(part_num+1)//(len(colors)-1)])
+        if len(colors)==1 or isinstance(colors,str):
+            clr=colors if colors[0]=='#' else colors[0]
+            cover=Image.new('RGB',(w,h),clr)
+            img.paste(cover,(0,0))
+        else:
+            if direction=='vertical':
+                for part_num in range(len(colors)-1):
+                    if part_num==len(colors)-2:
+                        parts.append([h*part_num//(len(colors)-1),h+1])
+                    else:
+                        parts.append([h*part_num//(len(colors)-1),h*(part_num+1)//(len(colors)-1)])
 
-            for i,part in enumerate(parts):
-                if i<len(colors)-1:
-                    begin_color,end_color=colors[i],colors[i+1]
-                    if i==len(parts)-1:
-                        img_part=img.crop((0,parts[i][0],w,parts[i][1]-1))
+                for i,part in enumerate(parts):
+                    if i<len(colors)-1:
+                        begin_color,end_color=colors[i],colors[i+1]
+                        if i==len(parts)-1:
+                            img_part=img.crop((0,parts[i][0],w,parts[i][1]-1))
+                        else:
+                            img_part=img.crop((0,parts[i][0],w,parts[i][1]))
+                        cover=self.fill_gradient_rct_rgb(img=img_part,begin_color=begin_color,end_color=end_color,horizontal=horizontal,direction=direction)
+                        img.paste(cover,(0,parts[i][0]))
+            elif direction=='horizon':
+                for part_num in range(len(colors)-1):
+                    if part_num==len(colors)-2:
+                        parts.append([w*part_num//(len(colors)-1),w+1])
                     else:
-                        img_part=img.crop((0,parts[i][0],w,parts[i][1]))
-                    cover=self.fill_gradient_rct_rgb(img=img_part,begin_color=begin_color,end_color=end_color,horizontal=horizontal,direction=direction)
-                    img.paste(cover,(0,parts[i][0]))
-        elif direction=='horizon':
-            for part_num in range(len(colors)-1):
-                if part_num==len(colors)-2:
-                    parts.append([w*part_num//(len(colors)-1),w+1])
-                else:
-                    parts.append([w*part_num//(len(colors)-1),w*(part_num+1)//(len(colors)-1)])
-            print(parts)
-            for i,part in enumerate(parts):
-                if i<len(colors)-1:
-                    begin_color,end_color=colors[i],colors[i+1]
-                    if i==len(parts)-1:
-                        img_part=img.crop((parts[i][0],0,parts[i][1]-1,h))
-                    else:
-                        img_part=img.crop((parts[i][0],0,parts[i][1],h))
-                    cover=self.fill_gradient_rct_rgb(img=img_part,begin_color=begin_color,end_color=end_color,horizontal=horizontal,direction=direction)
-                    img.paste(cover,(parts[i][0],0))
+                        parts.append([w*part_num//(len(colors)-1),w*(part_num+1)//(len(colors)-1)])
+                # print(parts)
+                for i,part in enumerate(parts):
+                    if i<len(colors)-1:
+                        begin_color,end_color=colors[i],colors[i+1]
+                        if i==len(parts)-1:
+                            img_part=img.crop((parts[i][0],0,parts[i][1]-1,h))
+                        else:
+                            img_part=img.crop((parts[i][0],0,parts[i][1],h))
+                        cover=self.fill_gradient_rct_rgb(img=img_part,begin_color=begin_color,end_color=end_color,horizontal=horizontal,direction=direction)
+                        img.paste(cover,(parts[i][0],0))
 
         return img
 
@@ -181,5 +186,5 @@ if __name__=='__main__':
     # img=rct.draw_gradient_rct_rgb(200,500,'#fffdee','#ffad6a',30,horizontal=(True, True, True),direction='vertical')
     img=Image.new('RGBA',(600,800),'#ffffff')
     # img=rct.fill_gradient_rct_rgb(img,'#fffdee','#ffad6a',horizontal=(True, True, True),direction='vertical')
-    img=rct.fill_multi_gradient_rct_rgb(img,('#fffdee','#ffad6a','#fed32a'),horizontal=(True, True, True),direction='vertical')
+    img=rct.fill_multi_gradient_rct_rgb(img,('#fffdee'),horizontal=(True, True, True),direction='vertical')
     img.show()
