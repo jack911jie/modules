@@ -78,6 +78,8 @@ class Dates:
         return 'OK'
 
     def month_days(self,y):
+        # print(y)
+        # y=str(y)
         if y//400==y/400 or y//4==y/4:
             return {'1':31,'2':29,'3':31,'4':30,'5':31,'6':30,'7':31,'8':31,'9':30,'10':31,'11':30,'12':31}
         else:
@@ -111,7 +113,7 @@ class Dates:
                 else:
                     d_m=m2-m1-1
                     m_d=self.month_days(y2)
-                    d_d=int(m_d(str(m2-1)))-d1+d2
+                    d_d=int(m_d[str(m2-1)])-d1+d2
             elif m2<m1:
                 d_y=0
                 if d2>=d1:
@@ -120,17 +122,17 @@ class Dates:
                 else:
                     d_m=m2+12-m1
                     m_d=self.month_days(y2)
-                    d_d=int(m_d(str(m2-1)))-d1+d2
+                    d_d=int(m_d[str(m2-1)])-d1+d2
             else: #m2==m1
                 if d2>=d1:
                     d_y=y2-y1
                     d_m=0
                     d_d=d2-d1
                 else:
-                    d_y=y2-y1
+                    d_y=y2-y1-1
                     d_m=11
                     m_d=self.month_days(y2)
-                    d_d=int(m_d(str(m2-1)))-d1+d2
+                    d_d=int(m_d[str(m2-1)])-d1+d2
         elif y1==y2:
             d_y=0
             if m2>m1:                
@@ -140,7 +142,7 @@ class Dates:
                 else:
                     d_m=m2-m1-1
                     m_d=self.month_days(y2)
-                    d_d=int(m_d(str(m2-1)))-d1+d2
+                    d_d=int(m_d[str(m2-1)])-d1+d2
             elif m2==m1:
                 if d2>=d1:
                     d_m=0
@@ -164,7 +166,8 @@ class Dates:
 
 if __name__=='__main__':
     p=Dates()
-    res=p.dif_y_m_d(s='20210101',e='20230301')
+    res=p.dif_y_m_d(s='19800523',e='20220521')
+    # print(p.month_days(2021)['5'])
     print(res)
     # res=p.check_date(s='20210101',e='20211202')
     # print(res)
