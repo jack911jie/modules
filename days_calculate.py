@@ -58,22 +58,27 @@ class Dates:
         if int(e[4:6]) in [4,6,9,11] and int(e[6:])>30:
             print('结束日期月份日期不能大于30')
             return 'error'
-        if int(s[4:6])==2 and int(s[0:4])//4==int(s[0:4])/4 or int(s[4:6])==2 and int(s[0:4])//400==int(s[0:4])/400:
-            if int(s[6:])>29:
-                print('闰年2月日期不能大于28')
-                return 'error'
+        if int(s[0:4])//4==int(s[0:4])/4 or int(s[0:4])//400==int(s[0:4])/400:
+            if int(s[4:6])==2:
+                if int(s[6:])>29:
+                    print('闰年2月日期不能大于28')
+                    return 'error'
         else:
-            if int(s[6:])>28:
-                print('平年2月日期不能大于28')
-                return 'error'
-        if int(e[4:6])==2 and int(e[0:4])//4==int(e[0:4])/4 or int(e[4:6])==2 and int(e[0:4])//400==int(e[0:4])/400:
-            if int(e[6:])>29:
-                print('闰年2月日期不能大于28')
-                return 'error'
+            if int(s[4:6])==2:
+                if int(s[6:])>28:
+                    print('平年2月日期不能大于28')
+                    return 'error'
+
+        if int(e[0:4])//4==int(e[0:4])/4 or int(e[0:4])//400==int(e[0:4])/400:
+            if int(e[4:6])==2:
+                if int(e[6:])>29:
+                    print('闰年2月日期不能大于28')
+                    return 'error'
         else:
-            if int(e[6:])>28:
-                print('平年2月日期不能大于28')
-                return 'error'
+            if int(e[4:6])==2:
+                if int(e[6:])>28:
+                    print('平年2月日期不能大于28')
+                    return 'error'
 
         return 'OK'
 
@@ -113,16 +118,22 @@ class Dates:
                 else:
                     d_m=m2-m1-1
                     m_d=self.month_days(y2)
-                    d_d=int(m_d[str(m2-1)])-d1+d2
+                    if m2==1:
+                        d_d=int(m_d[str(m2+12-1)])-d1+d2
+                    else:
+                        d_d=int(m_d[str(m2-1)])-d1+d2
             elif m2<m1:
                 d_y=0
                 if d2>=d1:
                     d_m=m2+12-m1
                     d_d=d2-d1
                 else:
-                    d_m=m2+12-m1
+                    d_m=m2+12-m1-1
                     m_d=self.month_days(y2)
-                    d_d=int(m_d[str(m2-1)])-d1+d2
+                    if m2==1:
+                        d_d=int(m_d[str(m2+12-1)])-d1+d2
+                    else:
+                        d_d=int(m_d[str(m2-1)])-d1+d2
             else: #m2==m1
                 if d2>=d1:
                     d_y=y2-y1
@@ -132,7 +143,10 @@ class Dates:
                     d_y=y2-y1-1
                     d_m=11
                     m_d=self.month_days(y2)
-                    d_d=int(m_d[str(m2-1)])-d1+d2
+                    if m2==1:
+                        d_d=int(m_d[str(m2+12-1)])-d1+d2
+                    else:
+                        d_d=int(m_d[str(m2-1)])-d1+d2
         elif y1==y2:
             d_y=0
             if m2>m1:                
@@ -142,7 +156,10 @@ class Dates:
                 else:
                     d_m=m2-m1-1
                     m_d=self.month_days(y2)
-                    d_d=int(m_d[str(m2-1)])-d1+d2
+                    if m2==1:
+                        d_d=int(m_d[str(m2+12-1)])-d1+d2
+                    else:
+                        d_d=int(m_d[str(m2-1)])-d1+d2
             elif m2==m1:
                 if d2>=d1:
                     d_m=0
@@ -166,8 +183,9 @@ class Dates:
 
 if __name__=='__main__':
     p=Dates()
-    res=p.dif_y_m_d(s='19800523',e='20220521')
+    res=p.dif_y_m_d(s='20220107',e='20220301')
     # print(p.month_days(2021)['5'])
     print(res)
     # res=p.check_date(s='20210101',e='20211202')
     # print(res)
+    # test=[['20210907','20221010']]
